@@ -1,0 +1,84 @@
+# Application principale Nehb
+spring:
+  application:
+    name: nehb
+
+  # Configuration PostgreSQL
+  datasource:
+    url: jdbc:postgresql://localhost:5432/nehb_db
+    username: nehb_user
+    password: ${DB_PASSWORD:nehb_secret}
+    driver-class-name: org.postgresql.Driver
+
+  # Configuration JPA/Hibernate
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: validate
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc:
+          time_zone: UTC
+
+  # Configuration Redis
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      timeout: 2000ms
+
+  # Configuration Cache
+  cache:
+    type: redis
+    redis:
+      time-to-live: 3600000
+      cache-null-values: false
+
+  # Configuration Mail
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+# Configuration du serveur
+server:
+  port: 8080
+  servlet:
+    context-path: /api/v1
+
+# Configuration JWT
+jwt:
+  secret: ${JWT_SECRET:nehbSecretKeyForAlNaiferPlatform2024VeryLongAndSecure}
+  expiration-ms: 86400000
+  refresh-expiration-ms: 604800000
+
+# Configuration Google Meet API
+google:
+  api:
+    service-account-key: ${GOOGLE_SERVICE_ACCOUNT_KEY:}
+    calendar-id: ${GOOGLE_CALENDAR_ID:primary}
+
+# Logging
+logging:
+  level:
+    root: INFO
+    com.alnaifer.nehb: DEBUG
+    org.springframework.security: INFO
+    org.hibernate.SQL: WARN
+
+# CORS Configuration
+cors:
+  allowed-origins: http://localhost:4200,https://alnaifer.com
+  allowed-methods: GET,POST,PUT,DELETE,OPTIONS
+  allowed-headers: "*"
+  allow-credentials: true
+  max-age: 3600
